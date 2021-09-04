@@ -64,4 +64,34 @@ describe('UserService', () => {
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
   });
+  describe('When create a user', () => {
+    it('should create a user', async () => {
+      mockRepository.save.mockReturnValue(user);
+      mockRepository.create.mockReturnValue(user);
+
+      const createdUser = await service.createUser({
+        email: user.email,
+        name: user.name,
+      });
+
+      expect(createdUser).toMatchObject(user);
+      expect(mockRepository.create).toBeCalledTimes(1);
+      expect(mockRepository.save).toBeCalledTimes(1);
+    });
+
+    it('should throw an exception when not creating a user', async () => {
+      mockRepository.save.mockReturnValue(null);
+      mockRepository.create.mockReturnValue(null);
+
+      await service.createUser(user).catch((e) => {
+        expect(e).toBeInstanceOf(InternalServerErrorException);
+        expect(e).toMatchObject({
+          message: 'Problema ao criar um usuário.',
+        });
+      });
+
+      expect(mockRepository.create).toBeCalledTimes(1);
+      expect(mockRepository.save).toBeCalledTimes(1);
+    });
+  });
 });
