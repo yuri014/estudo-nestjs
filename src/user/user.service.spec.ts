@@ -47,4 +47,21 @@ describe('UserService', () => {
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
+
+  describe('When search a User By Id', () => {
+    it('should find an existing user', async () => {
+      mockRepository.findOne.mockReturnValue(user);
+
+      const userById = await service.findUserById('1');
+      expect(userById).toMatchObject(user);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+    });
+
+    it('should throw an exception when not finding a user', async () => {
+      mockRepository.findOne.mockReturnValue(null);
+
+      expect(service.findUserById('1')).rejects.toThrow(NotFoundException);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+    });
+  });
 });
