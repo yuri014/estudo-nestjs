@@ -12,14 +12,28 @@ describe('UserService', () => {
     update: jest.fn(),
     delete: jest.fn(),
   };
+
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserService],
+      providers: [
+        UserService,
+        {
+          provide: getRepositoryToken(User),
+          useValue: mockRepository,
+        },
+      ],
     }).compile();
 
     service = module.get<UserService>(UserService);
   });
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  const user = TestUtil.giveMeAValidUser();
 });
