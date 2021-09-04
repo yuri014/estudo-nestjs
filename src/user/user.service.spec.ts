@@ -4,7 +4,14 @@ import { UserService } from './user.service';
 describe('UserService', () => {
   let service: UserService;
 
-  beforeEach(async () => {
+  const mockRepository = {
+    find: jest.fn(),
+    findOne: jest.fn(),
+    create: jest.fn(),
+    save: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+  };
     const module: TestingModule = await Test.createTestingModule({
       providers: [UserService],
     }).compile();
