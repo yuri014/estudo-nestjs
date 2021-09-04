@@ -36,4 +36,15 @@ describe('UserService', () => {
   });
 
   const user = TestUtil.giveMeAValidUser();
+
+  describe('When search All Users', () => {
+    it('should be list all user', async () => {
+      const userList = [user, user];
+      mockRepository.find.mockReturnValue(userList);
+
+      const users = await service.findAllUsers();
+      expect(users).toEqual(userList);
+      expect(mockRepository.find).toBeCalledTimes(1);
+    });
+  });
 });
