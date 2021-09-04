@@ -110,4 +110,27 @@ describe('UserService', () => {
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
   });
+  describe('When delete a User', () => {
+    it('should delete a user', async () => {
+      mockRepository.findOne.mockReturnValue(user);
+      mockRepository.delete.mockReturnValue(user);
+
+      const deletedUser = await service.deleteUser('1');
+
+      expect(deletedUser).toBe(true);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.delete).toBeCalledTimes(1);
+    });
+
+    it('Shoud not delete an indexisting user', async () => {
+      mockRepository.delete.mockReturnValue(null);
+      mockRepository.findOne.mockReturnValue(user);
+
+      const deletedUser = await service.deleteUser('9');
+
+      expect(deletedUser).toBe(false);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.delete).toBeCalledTimes(1);
+    });
+  });
 });
