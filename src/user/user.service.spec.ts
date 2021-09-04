@@ -1,4 +1,12 @@
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import TestUtil from '../common/test/TestUtil';
+
+import { User } from './user.entity';
 import { UserService } from './user.service';
 
 describe('UserService', () => {
@@ -64,6 +72,7 @@ describe('UserService', () => {
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
   });
+
   describe('When create a user', () => {
     it('should create a user', async () => {
       mockRepository.save.mockReturnValue(user);
@@ -94,6 +103,7 @@ describe('UserService', () => {
       expect(mockRepository.save).toBeCalledTimes(1);
     });
   });
+
   describe('When update a User', () => {
     it('should update a user', async () => {
       const updatedUserData = { ...user, name: 'João do Teste' };
@@ -110,6 +120,7 @@ describe('UserService', () => {
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
   });
+
   describe('When delete a User', () => {
     it('should delete a user', async () => {
       mockRepository.findOne.mockReturnValue(user);
