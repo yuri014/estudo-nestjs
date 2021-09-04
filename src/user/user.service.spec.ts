@@ -94,4 +94,20 @@ describe('UserService', () => {
       expect(mockRepository.save).toBeCalledTimes(1);
     });
   });
+  describe('When update a User', () => {
+    it('should update a user', async () => {
+      const updatedUserData = { ...user, name: 'João do Teste' };
+
+      mockRepository.findOne.mockReturnValue(user);
+      mockRepository.update.mockReturnValue(updatedUserData);
+      mockRepository.create.mockReturnValue(updatedUserData);
+
+      const updatedUser = await service.updateUser('1', updatedUserData);
+
+      expect(updatedUser).toMatchObject(updatedUserData);
+      expect(mockRepository.create).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+    });
+  });
 });
