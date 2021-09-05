@@ -81,6 +81,7 @@ describe('UserService', () => {
       const createdUser = await service.createUser({
         email: user.email,
         name: user.name,
+        password: user.password,
       });
 
       expect(createdUser).toMatchObject(user);
