@@ -26,7 +26,6 @@ export class UserResolver {
     @Args('email', { nullable: true }) email?: string,
   ): Promise<User> {
     const handleFindUser = async () => {
-      console.log(id);
       if (id) {
         return this.userService.findUserById(id);
       }
